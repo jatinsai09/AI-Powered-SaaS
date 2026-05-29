@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { dark } from "@clerk/themes";
+import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
-import { ClerkProvider } from '@clerk/nextjs'
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -15,11 +17,25 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
-
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
-    </html>
+    <ClerkProvider
+      appearance={{
+        baseTheme: dark, // Sets the overall theme to dark
+        variables: {
+          colorPrimary: "#D3D7E3", // Your brand color for buttons
+          colorBackground: "#1e293b", // Custom background color
+          colorText: "#D3D7E3", // Custom text color
+          colorDanger: "#ef4444", // Custom error color
+          fontFamily: '"Inter", sans-serif',
+        },
+        elements: {
+          // You can even target specific elements to style them
+          formButtonPrimary: "hover:bg-slate-700 text-sm normal-case",
+        },
+      }}
+    >
+      <html lang="en">
+        <body className={inter.className}>{children}</body>
+      </html>
     </ClerkProvider>
   );
 }
